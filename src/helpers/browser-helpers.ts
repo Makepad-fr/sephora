@@ -46,14 +46,12 @@ export default class BrowserHelpers {
     public async scrollToTheEnd(){
         let i:number = 0;
         let max:number = await this.getScrollableHeight();
-        console.log(`i = ${i} max = ${max}. Keep scrolling`);
         while (i <= max){
-            console.log(`i = ${i} max = ${max}. Keep scrolling`);
-            i += await this.getScrollableHeight() / 100;
+            i += await this.getScrollableHeight() / 20;
+            await this.page.waitForTimeout(Math.random()*5000+1000);
             await this.scroll(i);
             max = await this.getScrollableHeight();
         }
-        console.log('Scrolled bye');
     }
     /**
      * Function scrolls the page until the givne element appears on the page.
