@@ -1,10 +1,8 @@
 # sephora
 <div align="center">
-	<img src="https://github.com/Makepad-fr/jinsta/blob/c8f511003e97b74ba19cb538046a77871fa61785/icon.png?raw=true" alt="Image" />
+	<img src="https://raw.githubusercontent.com/Makepad-fr/sephora/5d64c17d55066f5b0fd5cfe48c5cc5fcd98c427a/sephoralogo.png" alt="Image" />
 </div>
 
-
-[![NPM](https://nodei.co/npm/<package>.png?mini=true)](https://npmjs.org/package/<package>)
 [![Makepad-fr](https://circleci.com/gh/Makepad-fr/jinsta.svg?style=svg)](https://app.circleci.com/pipelines/github/Makepad-fr/jinsta)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
