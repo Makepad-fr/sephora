@@ -1,55 +1,29 @@
 import {
-  Browser, BrowserContext, BrowserContextOptions,
-  BrowserType, chromium, ElementHandle, firefox, LaunchOptions,
-  webkit,
+
+  ElementHandle, Page,
 } from 'playwright-core';
-import Product from "./models/product";
-import Module from "./models/module";
+import Module from './models/module';
 
+export default class ProductDetails extends Module {
+  public constructor(page:Page) {
+    super(page);
+  }
 
-
-export default class ProductDetails extends Module{
-
-  public async getProductDetails(
-  url:string,
-  browser:'firefox' | 'chrome' | 'webkit' = 'firefox',
-  launchOptions?:LaunchOptions,
-  contextOptions?:BrowserContextOptions,
-):Promise<(Product|string | null)[]> {
-    let browserType: BrowserType;
-    switch (browser) {
-      case 'firefox':
-        browserType = firefox;
-        break;
-      case 'chrome':
-        browserType = chromium;
-        break;
-      default:
-        browserType = webkit;
-    }
-    const b: Browser = await browserType.launch(launchOptions);
-    const context: BrowserContext = await b.newContext(contextOptions);
-    const page = await context.newPage();
-    await page.goto(url);
-
+  public async getProductDetails() {
     try {
-      await super.helpers.scrollUntilElementAppears("");
+      await this.helpers.scrollToTheEnd();
     } catch (e) {
       console.warn('There is no product');
       return [];
     }
     // await super.helpers.expandAll(selectors.user.profile.education.seeMoreButton);
     const productListItems: ElementHandle<HTMLElement>[] = (await this.page
-        .$$("//div[contains(@class,'primary-content')]/ul[contains(@id,'search-result-items')]/li[contains(@class,'grid-title')]") ?? []) as ElementHandle<HTMLElement>[];
-    return Promise.all(productListItems.map(async (productListItem) => {
-        return productListItem.getAttribute("data-tcproduct");
-    }));
-
+      .$$("//div[contains(@class,'primary-content')]/ul[contains(@id,'search-result-items')]/li[contains(@class,'grid-tile')]/div[contains(@class,'product-tile')]") ?? []) as ElementHandle<HTMLElement>[];
+    console.log(`Number of products ${productListItems.length}`);
+    return Promise.all(productListItems.map(async (productListItem) => JSON.parse(await productListItem.getAttribute('data-tcproduct') ?? '{}')));
   }
 
-  init(): void {
+  async init(): Promise<void> {
+    await this.page.goto('https://www.sephora.fr/single-day-parfum/');
   }
 }
-test("https://www.sephora.fr/shop/parfum-c301/");
-
-
