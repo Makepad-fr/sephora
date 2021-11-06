@@ -3,8 +3,9 @@ import {
   ElementHandle, Page,
 } from 'playwright-core';
 import Module from './models/module';
+import selectors from './selectors';
 
-export default class ProductDetails extends Module {
+export default class Search extends Module {
   public constructor(page:Page) {
     super(page);
   }
@@ -18,7 +19,7 @@ export default class ProductDetails extends Module {
     }
     // await super.helpers.expandAll(selectors.user.profile.education.seeMoreButton);
     const productListItems: ElementHandle<HTMLElement>[] = (await this.page
-      .$$("//div[contains(@class,'primary-content')]/ul[contains(@id,'search-result-items')]/li[contains(@class,'grid-tile')]/div[contains(@class,'product-tile')]") ?? []) as ElementHandle<HTMLElement>[];
+      .$$(selectors.search.resultItem) ?? []) as ElementHandle<HTMLElement>[];
     console.log(`Number of products ${productListItems.length}`);
     return Promise.all(productListItems.map(async (productListItem) => JSON.parse(await productListItem.getAttribute('data-tcproduct') ?? '{}')));
   }
